@@ -8,6 +8,7 @@ export default {
     addDevice: false,
     snackbarError: false,
     snackbarSuccess: false,
+    SnackbarMessageAndContentType: { typeMessage: '', typeContent: '' },
   },
 
   getters: {
@@ -15,6 +16,7 @@ export default {
     addDevice: (state) => state.addDevice,
     snackbarSuccess: (state) => state.snackbarSuccess,
     snackbarError: (state) => state.snackbarError,
+    SnackbarMessageAndContentType: (state) => state.SnackbarMessageAndContentType,
   },
 
   mutations: {
@@ -31,7 +33,12 @@ export default {
     },
 
     setSnackbarError: (state, data) => {
-      Vue.set(state, 'snackbarError', data);
+      Vue.set(state, 'SnackbarMessageAndContentType', { typeMessage: data.typeMessage, typeContent: data.typeContent });
+      Vue.set(state, 'snackbarError', true);
+    },
+
+    unsetSnackbarError: (state) => {
+      Vue.set(state, 'snackbarError', false);
     },
   },
 
@@ -44,12 +51,16 @@ export default {
       context.commit('setAddDevice', value);
     },
 
+    showSnackbarSuccess: (context, value) => {
+      context.commit('setSnackbarSuccess', value);
+    },
+
     showSnackbarError: (context, value) => {
       context.commit('setSnackbarError', value);
     },
 
-    showSnackbarSuccess: (context, value) => {
-      context.commit('setSnackbarSuccess', value);
+    unsetShowStatusSnackbarError: (context) => {
+      context.commit('unsetSnackbarError');
     },
   },
 };

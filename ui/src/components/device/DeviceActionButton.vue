@@ -114,7 +114,7 @@ export default {
         this.refreshStats();
         this.refreshDevices();
       } catch {
-        this.$store.dispatch('modals/showSnackbarError', true);
+        this.$store.dispatch('modals/showSnackbarError', { typeMessage: 'action', typeContent: 'deviceAccepting' });
       }
     },
 
@@ -124,7 +124,7 @@ export default {
         this.refreshStats();
         this.refreshDevices();
       } catch {
-        this.$store.dispatch('modals/showSnackbarError', true);
+        this.$store.dispatch('modals/showSnackbarError', { typeMessage: 'action', typeContent: 'deviceRejecting' });
       }
     },
 
@@ -133,7 +133,7 @@ export default {
         await this.$store.dispatch('devices/remove', this.uid);
         this.refreshDevices();
       } catch {
-        this.$store.dispatch('modals/showSnackbarError', true);
+        this.$store.dispatch('modals/showSnackbarError', { typeMessage: 'action', typeContent: 'deviceDelete' });
       }
     },
 
@@ -147,7 +147,7 @@ export default {
 
         this.dialog = !this.dialog;
       } catch {
-        this.$store.dispatch('modals/showSnackbarError', true);
+        this.$store.dispatch('modals/showSnackbarError', { typeMessage: 'loading', typeContent: 'deviceList' });
       }
     },
 
@@ -155,7 +155,7 @@ export default {
       try {
         await this.$store.dispatch('stats/get');
       } catch {
-        this.$store.dispatch('modals/showSnackbarError', true);
+        this.$store.dispatch('modals/showSnackbarError', { typeMessage: 'default', typeContent: 'deviceDelete' });
       }
     },
   },
