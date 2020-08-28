@@ -14,11 +14,12 @@ import (
 )
 
 const (
-	AuthRequestURL  = "/auth"
-	AuthDeviceURL   = "/devices/auth"
-	AuthDeviceURLV2 = "/auth/device"
-	AuthUserURL     = "/login"
-	AuthUserURLV2   = "/auth/user"
+	AuthRequestURL   = "/auth"
+	AuthDeviceURL    = "/devices/auth"
+	AuthDeviceURLV2  = "/auth/device"
+	AuthUserURL      = "/login"
+	AuthUserURLV2    = "/auth/user"
+	AuthUserTokenURL = "/auth/token/:tenant"
 )
 
 func AuthRequest(c apicontext.Context) error {
@@ -102,6 +103,23 @@ func AuthUserInfo(c apicontext.Context) error {
 		User:   user.Username,
 		Tenant: user.TenantID,
 	})
+}
+
+func AuthGetToken(c apicontext.Context) error {
+	/*var req models.Tenant
+
+	if err := c.Bind(&req); err != nil {
+		return err
+	}*/
+
+	svc := authsvc.NewService(c.Store(), nil, nil)
+	res, err := svc.AuthGetToken(c.Ctx(), c.Param("tenant"))
+	if err != nil {
+		return echo.ErrUnauthorized
+	}
+
+	return c.JSON(http.StatusOK, res)
+	//	return nil
 }
 
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
